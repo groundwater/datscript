@@ -12,17 +12,17 @@ function Stream(){
 Stream.prototype.pipe = function(){}
 
 environment.clone = function(){
-  console.log('clone', arguments)
+  console.error('clone', arguments)
 
   return new Stream
 }
 
 environment.filter = function(){
-  console.log('filter', arguments)
+  console.error('filter', arguments)
 }
 
 environment.load = function(){
-  console.log('load', arguments)
+  console.error('load', arguments)
 
   return new Stream
 }

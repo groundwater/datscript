@@ -6,15 +6,42 @@ var datscript = require('../datscript.js')
 var solid     = require('lib-stream-solidify')
 
 var file = argv._.pop()
-if (file) {
-  console.error('// reading from', file)
-  var script = fs.readFileSync(file, 'utf-8')
-  datscript(script)
-
-} else {
+if (file === '-') {
   console.error('// reading from stdin')
 
   solid(process.stdin).text(function(_, script){
     datscript(script)
   })
+} else if (file) {
+  console.error('// reading from', file)
+  var script = fs.readFileSync(file, 'utf-8')
+  datscript(script)
+} else {
+  // REPL
+
+  var readline = require('readline')
+  var rl = readline.createInterface({
+    input  : process.stdin,
+    output : process.stdout
+  })
+
+  rl.on('SIGINT', rl.close.bind(rl))
+
+  function prompt() {
+    rl.question("D$ ", function(answer) {
+      if (!answer) return prompt()
+
+      try {
+        var out = datscript(answer)
+        if (out) console.log(out)
+      } catch(e) {
+        console.log(e)
+      }
+
+      prompt()
+    })
+  }
+
+  prompt()
+
 }

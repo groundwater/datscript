@@ -4,21 +4,26 @@ var index = require('../grammar.js')
 var test  = require('tape').test
 
 var tests = [
-  'B = clone name/repo',
+  'B = dathub name/repo',
+  'C = github groundwater/demo',
   'A = load "http://google.com"',
   'a | filter',
+  'x = a | filter | jump a ',
+  'do x, y',
+  'a | filter b > out',
 ]
 
 tests.forEach(function(line){
   test(line, function(t){
     var p = index.parse(line)
 
-    console.error(JSON.stringify(p, null, 2))
-
     t.ok(p, 'does parse')
-    var g = gen(p)
 
-    console.error(g)
+    try {
+      var g = gen(p)
+    } catch(e) {
+      console.error(JSON.stringify(p, null, 2))
+    }
 
     t.ok(g, 'does generate')
     t.end()

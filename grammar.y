@@ -7,6 +7,8 @@
 '='               return 'EQ'
 '|'               return 'PIPE'
 '/'               return 'SLASH'
+','               return 'COMMA'
+'>'               return 'GT'
 [0-9]+            return 'NUMBER'
 "\"".*"\""        return 'STRING'
 \w+               return 'WORD'
@@ -51,6 +53,21 @@ eol
 statement
   : expressionStatement
   | variableDeclaration
+  | redirectStatement
+  ;
+
+redirectStatement
+  : expression GT expression {
+    $$ = {
+      type: 'VariableDeclaration',
+      declarations: [{
+        type : 'VariableDeclarator',
+        id   : $3,
+        init : $1
+      }],
+      kind: 'var'
+    }
+  }
   ;
 
 variableDeclaration
@@ -73,6 +90,15 @@ expressionStatement
       type: 'ExpressionStatement',
       expression: $1
     }
+  }
+  ;
+
+expressionList
+  : expression {
+    $$ = [$1]
+  }
+  | expressionList COMMA expressionList {
+    $$ = $1.concat($3)
   }
   ;
 
@@ -104,11 +130,11 @@ pipeExpression
   ;
 
 callExpression
-  : identifier expression {
+  : identifier expressionList {
     $$ = {
       type      : 'CallExpression',
       callee    : $1,
-      arguments : [$2]
+      arguments : $2
     }
   }
   ;
