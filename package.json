@@ -1,6 +1,6 @@
 {
   "name": "datscript",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "a dat scripting language",
   "main": "datscript.js",
   "scripts": {
