@@ -9,6 +9,7 @@
 '/'               return 'SLASH'
 ','               return 'COMMA'
 '>'               return 'GT'
+'.'               return 'DOT'
 [0-9]+            return 'NUMBER'
 "\"".*"\""        return 'STRING'
 \w+               return 'WORD'
@@ -107,6 +108,18 @@ expression
   | identifier
   | callExpression
   | pipeExpression
+  | memberExpression
+  ;
+
+memberExpression
+  : expression DOT identifier {
+    $$ = {
+      type     : "MemberExpression",
+      object   : $1,
+      property : $3,
+      computed : false,
+    }
+  }
   ;
 
 pipeExpression
@@ -130,7 +143,7 @@ pipeExpression
   ;
 
 callExpression
-  : identifier expressionList {
+  : expression expressionList {
     $$ = {
       type      : 'CallExpression',
       callee    : $1,

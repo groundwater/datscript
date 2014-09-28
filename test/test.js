@@ -10,7 +10,10 @@ var tests = [
   'a | filter',
   'x = a | filter | jump a ',
   'do x, y',
+  'do x',
   'a | filter b > out',
+  'a.x y',
+  'a.x y, y',
 ]
 
 tests.forEach(function(line){
