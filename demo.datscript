@@ -1,0 +1,3 @@
+a = clone a/b
+b = load "http://google.com"
+a | filter "hello"

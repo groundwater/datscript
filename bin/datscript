@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+var fs        = require('fs')
+var argv      = require('minimist')(process.argv.slice(2))
+var datscript = require('../datscript.js')
+var solid     = require('lib-stream-solidify')
+
+var file = argv._.pop()
+if (file) {
+  console.error('// reading from', file)
+  var script = fs.readFileSync(file, 'utf-8')
+  datscript(script)
+
+} else {
+  console.error('// reading from stdin')
+
+  solid(process.stdin).text(function(_, script){
+    datscript(script)
+  })
+}

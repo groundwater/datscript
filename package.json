@@ -1,0 +1,35 @@
+{
+  "name": "datscript",
+  "version": "1.0.0",
+  "description": "a dat scripting language",
+  "main": "datscript.js",
+  "scripts": {
+    "test": "jison grammar.y && tape test/**/*.js",
+    "grammar.js": "jison grammar.y"
+  },
+  "author": "Jacob Groundwater",
+  "license": "ISC",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "jison": "^0.4.15",
+    "tape": "^3.0.0"
+  },
+  "dependencies": {
+    "escodegen": "^1.4.1",
+    "lib-stream-solidify": "^0.1.0",
+    "minimist": "^1.1.0"
+  },
+  "bin": {
+    "datscript": "bin/datscript"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/groundwater/datscript.git"
+  },
+  "bugs": {
+    "url": "https://github.com/groundwater/datscript/issues"
+  },
+  "homepage": "https://github.com/groundwater/datscript"
+}
